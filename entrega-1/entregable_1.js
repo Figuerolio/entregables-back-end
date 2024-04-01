@@ -9,7 +9,7 @@ class ProductClass {
     }
 }
 
-const product = new ProductClass("zapatilla","las mejores","120","img","12","12") 
+const product = new ProductClass("zapatilla","las mejores","120","img",12,"12") 
 
 class ProductManager{
     
@@ -20,6 +20,7 @@ class ProductManager{
     
     addProduct(product){
         if(product.code !== this.products.code){
+            this.products.code = (+code)
             this.products.push(product)
         }else{
             alert("Ya existe este producto")
