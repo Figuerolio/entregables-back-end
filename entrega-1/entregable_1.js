@@ -35,11 +35,11 @@ class ProductManager{
 
     getProductById(){
         let filteredProduct = this.products.find((code)=> product.code === code)
-        return filteredProduct
+        return filteredProduct()
     }
 }
 
 
 const productManager = new ProductManager();
-    productManager.getProducts()
+    productManager.getProducts(product)
     productManager.addProduct()
