@@ -33,9 +33,15 @@ class ProductManager{
     }
 
 
-    getProductById(){
-        let filteredProduct = this.products.find((code)=> product.code === code)
-        return filteredProduct()
+    getProductById(code){
+        if(this.products.code === code){
+            let filteredProduct = this.products.find((code)=> product.code === code)
+            return filteredProduct
+        }else{
+            return alert("Producto no encontrado")
+        }
+        
+        
     }
 }
 
