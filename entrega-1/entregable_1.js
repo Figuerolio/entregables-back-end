@@ -19,12 +19,12 @@ class ProductManager{
     
     
     addProduct(product){
-        if(product.code !== this.products.code){
-            this.products.code = (+code)
-            this.products.push(product)
+        const existingProduct = this.products.find(products=> products.code === product.code)
+        if(existingProduct){
+            alert("el producto ya existe")
         }else{
-            alert("Ya existe este producto")
-            return this.products
+            this.products.push(product);
+            return this.products;
         }
     }
 
