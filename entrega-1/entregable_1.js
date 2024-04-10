@@ -34,11 +34,11 @@ class ProductManager{
 
 
     getProductById(code){
-        if(this.products.code === code){
-            let filteredProduct = this.products.find((code)=> product.code === code)
+        let filteredProduct = this.products.find((product)=> product.code === code)
+        if(filteredProduct){
             return filteredProduct
         }else{
-            return alert("Producto no encontrado")
+            return console.log("Producto no encontrado");
         }
         
         
@@ -47,5 +47,7 @@ class ProductManager{
 
 
 const productManager = new ProductManager();
-    productManager.getProducts(product)
-    productManager.addProduct()
+    productManager.addProduct(product)
+    console.log(productManager.getProducts()) 
+    console.log(productManager.getProductById())
+    
