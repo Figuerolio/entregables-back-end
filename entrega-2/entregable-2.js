@@ -28,8 +28,8 @@ class ProductManager{
                 alert("el producto ya existe")
             }else{
                 this.products.push(product);
-                await fs.promises.appendFile(this.path,product)
-                productCatalogue = await fs.promises.readFile(path,"utf-8")
+                await fs.promises.writeFile(this.path,JSON.stringify(this.products,null,1))
+                let productCatalogue = await fs.promises.readFile(this.path,"utf-8")
                 console.log(productCatalogue)
         }
         } catch (error) {
@@ -42,6 +42,7 @@ class ProductManager{
         try {
             const data = await fs.promises.readFile(this.path,"utf-8")
             this.product = JSON.parse(data)
+            console.log(this.product)
         } catch (error) {
             console.log(error)
         }
@@ -51,13 +52,14 @@ class ProductManager{
 
     deleteProduct= async (id)=>{
         try {
-            const data = fs.promises.readFile(this.path,"utf-8")
-            let delProdct = data.find((data)=> data.id === id)
+            const data = JSON.parse(await fs.promises.readFile(this.path,"utf-8"))
+            let delProdct = data.find((data)=> data.code === id)
             if(delProdct){
                 let newArray = data.filter((elemento)=> elemento.id !== id)
                 await fs.promises.writeFile(this.path,JSON.stringify(newArray,null,1))
+                console.log("Confirmacion")
             }else{
-
+                console.log("Denegado")
             }
         } catch (error) {
             console.log(error)
@@ -67,11 +69,17 @@ class ProductManager{
 
     updateProduct= async (id,price)=>{
         try {
-            const data = fs.promises.readFile(this.path,"utf-8")
-            let prodUpdate = data.find((data)=>data.id === id)
+            const data = JSON.parse(await fs.promises.readFile(this.path,"utf-8"))
+            let prodUpdate = data.find((data)=>data.code === id)
+            const index = data.indexOf(prodUpdate)
+            if(index> -1){
+                data[index].price = price
+            }
             if(prodUpdate){
-                let updated = fs.promises.appendFile(this.path,price)
-                console.log(updated)
+                await fs.promises.writeFile(this.path,JSON.stringify(data,null,1))
+                console.log("Updated")
+            }else{
+                console.log("No Update")
             }
         } catch (error) {
             console.log(error)
@@ -82,6 +90,7 @@ class ProductManager{
         try {
             let filteredProduct = this.products.find((product)=> product.code === code)
             if(filteredProduct){
+                console.log(filteredProduct)
                 return filteredProduct
             }else{
                 return console.log("Producto no encontrado");
@@ -96,7 +105,11 @@ class ProductManager{
 }
 
 
-const productManager = new ProductManager();
-    productManager.addProduct(product)
-    console.log(productManager.getProducts()) 
-    console.log(productManager.getProductById())
+const productManager = new ProductManager("productos-entregable.txt");
+const testeo = async ()=> {
+    await productManager.addProduct(product)
+    await productManager.getProducts()
+    await productManager.updateProduct(12,300)
+    await productManager.getProductById(12)
+}    
+testeo()
