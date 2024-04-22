@@ -88,7 +88,9 @@ class ProductManager{
 
     getProductById= async(code)=>{
         try {
-            let filteredProduct = this.products.find((product)=> product.code === code)
+            const data = await fs.promises.readFile(this.path,"utf-8")
+            const parseData = JSON.parse(data)
+            let filteredProduct = parseData.find((product)=> product.code === code)
             if(filteredProduct){
                 console.log(filteredProduct)
                 return filteredProduct
