@@ -41,8 +41,8 @@ class ProductManager{
     getProducts = async () => {
         try {
             const data = await fs.promises.readFile(this.path,"utf-8")
-            this.product = JSON.parse(data)
-            console.log(this.product)
+            this.products = JSON.parse(data)
+            console.log(this.products)
         } catch (error) {
             console.log(error)
         }
@@ -113,3 +113,5 @@ const testeo = async ()=> {
     await productManager.getProductById(12)
 }    
 testeo()
+
+export default ProductManager
